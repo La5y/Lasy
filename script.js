@@ -1,24 +1,230 @@
-// =================================
-// LASY V5 - Digital Intelligence Studio
-// Interactive Script
-// =================================
+// ======================================
+// LASY V6 - Digital Intelligence Experience
+// ======================================
+
+
+// ===== 3D Globe With Three.js =====
+
+
+const globe = document.getElementById("globe");
+
+
+const scene = new THREE.Scene();
+
+
+const camera = new THREE.PerspectiveCamera(
+45,
+globe.clientWidth / globe.clientHeight,
+0.1,
+1000
+);
+
+
+const renderer = new THREE.WebGLRenderer({
+    alpha:true,
+    antialias:true
+});
+
+
+renderer.setSize(
+    globe.clientWidth,
+    globe.clientHeight
+);
+
+
+globe.appendChild(renderer.domElement);
 
 
 
-// Custom Cursor
 
-const cursor = document.querySelector(".cursor");
+
+// Globe
+
+
+const geometry =
+new THREE.SphereGeometry(
+2,
+64,
+64
+);
+
+
+
+const material =
+new THREE.MeshStandardMaterial({
+
+    color:0x0284c7,
+
+    emissive:0x001f3f,
+
+    metalness:.8,
+
+    roughness:.3,
+
+    wireframe:true
+
+});
+
+
+
+const earth =
+new THREE.Mesh(
+geometry,
+material
+);
+
+
+
+scene.add(earth);
+
+
+
+
+
+
+
+// Glow Ring
+
+
+const ringGeometry =
+new THREE.TorusGeometry(
+2.4,
+0.03,
+16,
+100
+);
+
+
+
+const ringMaterial =
+new THREE.MeshBasicMaterial({
+
+    color:0x38bdf8
+
+});
+
+
+
+const ring =
+new THREE.Mesh(
+ringGeometry,
+ringMaterial
+);
+
+
+
+scene.add(ring);
+
+
+
+
+
+
+
+// Lights
+
+
+const light =
+new THREE.PointLight(
+0x38bdf8,
+3,
+100
+);
+
+
+light.position.set(
+5,
+5,
+5
+);
+
+
+scene.add(light);
+
+
+
+scene.add(
+new THREE.AmbientLight(
+0xffffff,
+0.5
+)
+);
+
+
+
+
+
+camera.position.z = 6;
+
+
+
+
+
+
+
+
+
+// Mouse / Touch Control
+
+
+let targetX = 0;
+let targetY = 0;
+
 
 
 document.addEventListener(
 "mousemove",
 (e)=>{
 
-    cursor.style.left =
-    e.clientX + "px";
 
-    cursor.style.top =
-    e.clientY + "px";
+targetX =
+(e.clientX /
+window.innerWidth - .5)
+* 2;
+
+
+
+targetY =
+(e.clientY /
+window.innerHeight - .5)
+* 2;
+
+
+});
+
+
+
+
+
+// Mobile Touch
+
+
+document.addEventListener(
+"touchmove",
+(e)=>{
+
+
+if(e.touches.length){
+
+let x =
+e.touches[0].clientX;
+
+
+let y =
+e.touches[0].clientY;
+
+
+
+targetX =
+(x/window.innerWidth-.5)*2;
+
+
+targetY =
+(y/window.innerHeight-.5)*2;
+
+
+}
+
 
 });
 
@@ -28,124 +234,81 @@ document.addEventListener(
 
 
 
-// Cursor Glow Effect
 
 
-const links =
-document.querySelectorAll("a, .tech, .stats div, .features div");
+function animateGlobe(){
 
 
-links.forEach(item=>{
-
-
-item.addEventListener(
-"mouseenter",
-()=>{
-
-cursor.style.transform =
-"scale(2)";
-
-});
-
-
-item.addEventListener(
-"mouseleave",
-()=>{
-
-cursor.style.transform =
-"scale(1)";
-
-});
-
-
-});
-
-
-
-
-
-
-
-
-
-// 3D Card Movement
-
-
-const cards =
-document.querySelectorAll(
-".hero-card, .tech, .stats div, .features div"
+requestAnimationFrame(
+animateGlobe
 );
 
 
 
-cards.forEach(card=>{
+earth.rotation.y += .004;
 
 
-card.addEventListener(
-"mousemove",
-(e)=>{
-
-
-let rect =
-card.getBoundingClientRect();
+ring.rotation.z += .003;
 
 
 
-let x =
-e.clientX - rect.left;
+earth.rotation.x +=
+(targetY - earth.rotation.x)
+*.03;
 
 
 
-let y =
-e.clientY - rect.top;
+earth.rotation.y +=
+(targetX - earth.rotation.y)
+*.02;
 
 
 
-let centerX =
-rect.width / 2;
+renderer.render(
+scene,
+camera
+);
 
 
-let centerY =
-rect.height / 2;
-
-
-
-let rotateX =
-(y - centerY) / 15;
-
-
-let rotateY =
-(centerX - x) / 15;
+}
 
 
 
-card.style.transform =
-`
-perspective(800px)
-rotateX(${rotateX}deg)
-rotateY(${rotateY}deg)
-scale(1.05)
-`;
-
-
-
-});
+animateGlobe();
 
 
 
 
-card.addEventListener(
-"mouseleave",
+
+
+
+
+
+// Resize
+
+
+window.addEventListener(
+"resize",
 ()=>{
 
 
-card.style.transform =
-"";
+camera.aspect =
+globe.clientWidth /
+globe.clientHeight;
+
+
+camera.updateProjectionMatrix();
+
+
+renderer.setSize(
+globe.clientWidth,
+globe.clientHeight
+);
+
 
 });
 
 
-});
 
 
 
@@ -153,128 +316,98 @@ card.style.transform =
 
 
 
+// ===== Changing Text =====
 
 
-// Terminal Typing Effect
+const words = [
 
+"Digital Intelligence Studio",
 
-const terminal =
-document.querySelector(".terminal");
+"Cyber Developer",
 
+"Creative Programmer",
 
-const terminalText = [
-
-"root@lasy:~$",
-
-"> Initializing system...",
-
-"> Loading technologies...",
-
-"> React module active ✓",
-
-"> Python engine active ✓",
-
-"> Security layer enabled ✓",
-
-"> System Ready."
+"Future Technology"
 
 ];
 
 
-
-if(terminal){
-
-
-terminal.innerHTML = "";
+let wordIndex = 0;
 
 
-let line = 0;
-
-
-
-function writeLine(){
-
-
-if(line < terminalText.length){
-
-
-let p =
-document.createElement("p");
-
-
-
-terminal.appendChild(p);
-
-
-
-let text =
-terminalText[line];
-
-
-
-let index = 0;
-
-
-
-let typing =
-setInterval(()=>{
-
-
-p.textContent +=
-text[index];
-
-
-index++;
-
-
-
-if(index >= text.length){
-
-
-clearInterval(typing);
-
-line++;
-
-
-setTimeout(
-writeLine,
-500
+const changing =
+document.getElementById(
+"changing-text"
 );
 
 
-}
+
+setInterval(()=>{
+
+
+wordIndex++;
+
+
+if(wordIndex >= words.length)
+wordIndex = 0;
 
 
 
-},50);
+changing.style.opacity = 0;
 
 
 
-}
+setTimeout(()=>{
 
 
-}
+changing.textContent =
+words[wordIndex];
 
 
-
-writeLine();
-
-
-}
+changing.style.opacity = 1;
 
 
 
+},400);
+
+
+
+},2500);
 
 
 
 
 
 
-// Scroll Reveal
+
+
+
+// ===== Scroll Reveal =====
 
 
 const sections =
-document.querySelectorAll(".section");
+document.querySelectorAll(
+".section"
+);
+
+
+
+sections.forEach(
+item=>{
+
+
+item.style.opacity="0";
+
+item.style.transform=
+"translateY(80px)";
+
+item.style.transition=
+"1s ease";
+
+
+});
+
+
 
 
 
@@ -283,24 +416,24 @@ window.addEventListener(
 ()=>{
 
 
-sections.forEach(section=>{
+sections.forEach(
+item=>{
 
 
-let position =
-section.getBoundingClientRect().top;
+let pos =
+item.getBoundingClientRect().top;
 
 
 
 if(
-position <
-window.innerHeight - 120
+pos <
+window.innerHeight-120
 ){
 
 
-section.style.opacity="1";
+item.style.opacity="1";
 
-
-section.style.transform=
+item.style.transform=
 "translateY(0)";
 
 
@@ -316,31 +449,11 @@ section.style.transform=
 
 
 
-sections.forEach(section=>{
-
-
-section.style.opacity="0";
-
-
-section.style.transform=
-"translateY(70px)";
-
-
-section.style.transition=
-"1s ease";
-
-
-});
 
 
 
 
-
-
-
-
-
-// Navbar Blur On Scroll
+// ===== Parallax Background =====
 
 
 window.addEventListener(
@@ -348,98 +461,24 @@ window.addEventListener(
 ()=>{
 
 
-let header =
-document.querySelector("header");
+const y =
+window.scrollY;
 
 
-
-if(window.scrollY > 50){
-
-
-header.style.background =
-"rgba(2,6,23,.85)";
+document.querySelector(
+".space-bg"
+).style.transform =
+`translateY(${y*0.15}px) scale(1.1)`;
 
 
-}else{
-
-
-header.style.background =
-"rgba(255,255,255,.05)";
-
-
-}
+document.querySelector(
+".grid"
+).style.transform =
+`translateY(${y*0.08}px)`;
 
 
 });
 
-
-
-
-
-
-
-
-
-// Hero Parallax
-
-
-document.addEventListener(
-"mousemove",
-(e)=>{
-
-
-const hero =
-document.querySelector(".hero-card");
-
-
-
-if(hero){
-
-
-let x =
-(e.clientX /
-window.innerWidth - .5) * 20;
-
-
-
-let y =
-(e.clientY /
-window.innerHeight - .5) * 20;
-
-
-
-hero.style.transform +=
-`
-translate(${x}px,${y}px)
-`;
-
-}
-
-
-});
-
-
-
-
-
-
-
-
-
-// Loading Animation
-
-
-window.addEventListener(
-"load",
-()=>{
-
-
-document.body.classList.add(
-"loaded"
-);
-
-
-});
 
 
 
@@ -449,6 +488,6 @@ document.body.classList.add(
 
 
 console.log(
-"%c LASY V5 SYSTEM ONLINE 🚀",
-"color:#38bdf8;font-size:22px;font-weight:bold;"
+"%c LASY V6 ONLINE 🌐",
+"color:#38bdf8;font-size:24px;font-weight:bold;"
 );
