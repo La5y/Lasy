@@ -1,172 +1,61 @@
-// ===============================
-// LASY V2 - Cyber Portfolio JS
-// ===============================
+// =================================
+// LASY V5 - Digital Intelligence Studio
+// Interactive Script
+// =================================
 
 
-// Particles Background
 
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
+// Custom Cursor
 
+const cursor = document.querySelector(".cursor");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
+document.addEventListener(
+"mousemove",
+(e)=>{
 
-let particles = [];
+    cursor.style.left =
+    e.clientX + "px";
 
+    cursor.style.top =
+    e.clientY + "px";
 
-class Particle {
+});
 
-    constructor(){
 
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
 
-        this.size = Math.random() * 2 + 1;
 
-        this.speedX = Math.random() * 1 - 0.5;
-        this.speedY = Math.random() * 1 - 0.5;
 
-    }
 
 
-    update(){
+// Cursor Glow Effect
 
-        this.x += this.speedX;
-        this.y += this.speedY;
 
+const links =
+document.querySelectorAll("a, .tech, .stats div, .features div");
 
-        if(
-            this.x < 0 ||
-            this.x > canvas.width
-        ){
 
-            this.speedX *= -1;
+links.forEach(item=>{
 
-        }
 
-
-        if(
-            this.y < 0 ||
-            this.y > canvas.height
-        ){
-
-            this.speedY *= -1;
-
-        }
-
-    }
-
-
-
-    draw(){
-
-        ctx.beginPath();
-
-        ctx.arc(
-            this.x,
-            this.y,
-            this.size,
-            0,
-            Math.PI * 2
-        );
-
-
-        ctx.fillStyle = "#00ff99";
-
-        ctx.fill();
-
-    }
-
-}
-
-
-
-
-
-function createParticles(){
-
-    particles = [];
-
-    for(
-        let i = 0;
-        i < 120;
-        i++
-    ){
-
-        particles.push(
-            new Particle()
-        );
-
-    }
-
-}
-
-
-
-createParticles();
-
-
-
-
-
-function animate(){
-
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    particles.forEach(
-        particle=>{
-
-            particle.update();
-
-            particle.draw();
-
-        }
-    );
-
-
-    requestAnimationFrame(
-        animate
-    );
-
-
-}
-
-
-animate();
-
-
-
-
-
-
-
-
-// Resize Canvas
-
-
-window.addEventListener(
-"resize",
+item.addEventListener(
+"mouseenter",
 ()=>{
 
+cursor.style.transform =
+"scale(2)";
 
-canvas.width =
-window.innerWidth;
-
-
-canvas.height =
-window.innerHeight;
+});
 
 
-createParticles();
+item.addEventListener(
+"mouseleave",
+()=>{
+
+cursor.style.transform =
+"scale(1)";
+
+});
 
 
 });
@@ -179,46 +68,199 @@ createParticles();
 
 
 
-// Typing Effect
+// 3D Card Movement
 
 
-const text =
-"Programming • Security • Development";
+const cards =
+document.querySelectorAll(
+".hero-card, .tech, .stats div, .features div"
+);
 
 
-const typing =
-document.getElementById("typing");
+
+cards.forEach(card=>{
+
+
+card.addEventListener(
+"mousemove",
+(e)=>{
+
+
+let rect =
+card.getBoundingClientRect();
+
+
+
+let x =
+e.clientX - rect.left;
+
+
+
+let y =
+e.clientY - rect.top;
+
+
+
+let centerX =
+rect.width / 2;
+
+
+let centerY =
+rect.height / 2;
+
+
+
+let rotateX =
+(y - centerY) / 15;
+
+
+let rotateY =
+(centerX - x) / 15;
+
+
+
+card.style.transform =
+`
+perspective(800px)
+rotateX(${rotateX}deg)
+rotateY(${rotateY}deg)
+scale(1.05)
+`;
+
+
+
+});
+
+
+
+
+card.addEventListener(
+"mouseleave",
+()=>{
+
+
+card.style.transform =
+"";
+
+});
+
+
+});
+
+
+
+
+
+
+
+
+
+// Terminal Typing Effect
+
+
+const terminal =
+document.querySelector(".terminal");
+
+
+const terminalText = [
+
+"root@lasy:~$",
+
+"> Initializing system...",
+
+"> Loading technologies...",
+
+"> React module active ✓",
+
+"> Python engine active ✓",
+
+"> Security layer enabled ✓",
+
+"> System Ready."
+
+];
+
+
+
+if(terminal){
+
+
+terminal.innerHTML = "";
+
+
+let line = 0;
+
+
+
+function writeLine(){
+
+
+if(line < terminalText.length){
+
+
+let p =
+document.createElement("p");
+
+
+
+terminal.appendChild(p);
+
+
+
+let text =
+terminalText[line];
+
 
 
 let index = 0;
 
 
 
-function typeWriter(){
+let typing =
+setInterval(()=>{
 
 
-    if(index < text.length){
-
-        typing.innerHTML +=
-        text.charAt(index);
+p.textContent +=
+text[index];
 
 
-        index++;
+index++;
 
-        setTimeout(
-            typeWriter,
-            80
-        );
 
-    }
+
+if(index >= text.length){
+
+
+clearInterval(typing);
+
+line++;
+
+
+setTimeout(
+writeLine,
+500
+);
+
 
 }
 
 
 
-typing.innerHTML = "";
+},50);
 
-typeWriter();
+
+
+}
+
+
+}
+
+
+
+writeLine();
+
+
+}
 
 
 
@@ -236,41 +278,27 @@ document.querySelectorAll(".section");
 
 
 
-sections.forEach(
-section=>{
-
-    section.style.opacity = "0";
-
-    section.style.transform =
-    "translateY(40px)";
-
-    section.style.transition =
-    "0.8s ease";
-
-});
-
-
-
-
-
 window.addEventListener(
 "scroll",
 ()=>{
 
 
-sections.forEach(
-section=>{
+sections.forEach(section=>{
 
 
-let top =
+let position =
 section.getBoundingClientRect().top;
 
 
+
 if(
-top < window.innerHeight - 100
+position <
+window.innerHeight - 120
 ){
 
+
 section.style.opacity="1";
+
 
 section.style.transform=
 "translateY(0)";
@@ -288,34 +316,18 @@ section.style.transform=
 
 
 
+sections.forEach(section=>{
 
 
+section.style.opacity="0";
 
 
-// Terminal Animation
+section.style.transform=
+"translateY(70px)";
 
 
-const terminalLines =
-document.querySelectorAll(
-".terminal p"
-);
-
-
-terminalLines.forEach(
-(line,index)=>{
-
-
-line.style.opacity="0";
-
-
-setTimeout(
-()=>{
-
-line.style.opacity="1";
-
-},
-index * 700
-);
+section.style.transition=
+"1s ease";
 
 
 });
@@ -328,10 +340,115 @@ index * 700
 
 
 
-// Console Branding
+// Navbar Blur On Scroll
+
+
+window.addEventListener(
+"scroll",
+()=>{
+
+
+let header =
+document.querySelector("header");
+
+
+
+if(window.scrollY > 50){
+
+
+header.style.background =
+"rgba(2,6,23,.85)";
+
+
+}else{
+
+
+header.style.background =
+"rgba(255,255,255,.05)";
+
+
+}
+
+
+});
+
+
+
+
+
+
+
+
+
+// Hero Parallax
+
+
+document.addEventListener(
+"mousemove",
+(e)=>{
+
+
+const hero =
+document.querySelector(".hero-card");
+
+
+
+if(hero){
+
+
+let x =
+(e.clientX /
+window.innerWidth - .5) * 20;
+
+
+
+let y =
+(e.clientY /
+window.innerHeight - .5) * 20;
+
+
+
+hero.style.transform +=
+`
+translate(${x}px,${y}px)
+`;
+
+}
+
+
+});
+
+
+
+
+
+
+
+
+
+// Loading Animation
+
+
+window.addEventListener(
+"load",
+()=>{
+
+
+document.body.classList.add(
+"loaded"
+);
+
+
+});
+
+
+
+
+
+
 
 
 console.log(
-"%c LASY V2 Loaded 🚀",
-"color:#00ff99;font-size:22px;font-weight:bold;"
+"%c LASY V5 SYSTEM ONLINE 🚀",
+"color:#38bdf8;font-size:22px;font-weight:bold;"
 );
