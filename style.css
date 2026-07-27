@@ -3,6 +3,10 @@
     padding:0;
     box-sizing:border-box;
     font-family:Inter, Arial, sans-serif;
+}
+
+
+html{
     scroll-behavior:smooth;
 }
 
@@ -10,14 +14,14 @@
 body{
 
     background:#020617;
-    color:white;
+    color:#fff;
     overflow-x:hidden;
 
 }
 
 
 
-/* ===== Loading ===== */
+/* ===== Loader ===== */
 
 
 #loader{
@@ -25,26 +29,28 @@ body{
     position:fixed;
     inset:0;
     background:#000814;
+
     display:flex;
+    flex-direction:column;
     justify-content:center;
     align-items:center;
-    flex-direction:column;
-    z-index:9999;
-    animation:hideLoader 3s forwards;
+
+    z-index:99999;
 
 }
 
 
 
-.loader-logo{
+.loader-core{
 
     font-size:90px;
     font-weight:900;
+
     color:#38bdf8;
 
     text-shadow:
-    0 0 20px #0284c7,
-    0 0 60px #38bdf8;
+    0 0 20px #38bdf8,
+    0 0 80px #2563eb;
 
     animation:pulse 1.5s infinite;
 
@@ -52,26 +58,11 @@ body{
 
 
 
-.loading-text{
+.loader-text{
 
     margin-top:20px;
     color:#94a3b8;
-    letter-spacing:3px;
-
-}
-
-
-
-@keyframes hideLoader{
-
-    0%,80%{
-        opacity:1;
-    }
-
-    100%{
-        opacity:0;
-        visibility:hidden;
-    }
+    letter-spacing:4px;
 
 }
 
@@ -80,7 +71,9 @@ body{
 @keyframes pulse{
 
     50%{
-        transform:scale(1.1);
+
+        transform:scale(1.15);
+
     }
 
 }
@@ -92,36 +85,20 @@ body{
 
 
 
+/* ===== Space Canvas ===== */
 
-/* ===== Space Background ===== */
 
-
-.space-bg{
+#space{
 
     position:fixed;
-    inset:0;
-    z-index:-3;
 
-    background:
-    radial-gradient(circle at 20% 20%,#0369a1,transparent 30%),
-    radial-gradient(circle at 80% 70%,#4338ca,transparent 30%),
-    #020617;
+    top:0;
+    left:0;
 
-    animation:spaceMove 15s infinite alternate;
+    width:100%;
+    height:100%;
 
-}
-
-
-
-@keyframes spaceMove{
-
-    from{
-        transform:scale(1);
-    }
-
-    to{
-        transform:scale(1.2);
-    }
+    z-index:-5;
 
 }
 
@@ -131,65 +108,18 @@ body{
 
 
 
-/* Cyber Grid */
+/* ===== 3D Core ===== */
 
 
-.grid{
-
-    position:fixed;
-    inset:0;
-    z-index:-2;
-
-    background-image:
-    linear-gradient(
-    rgba(56,189,248,.08) 1px,
-    transparent 1px
-    ),
-    linear-gradient(
-    90deg,
-    rgba(56,189,248,.08) 1px,
-    transparent 1px
-    );
-
-    background-size:50px 50px;
-
-    animation:gridMove 10s linear infinite;
-
-}
-
-
-
-@keyframes gridMove{
-
-    from{
-        background-position:0 0;
-    }
-
-    to{
-        background-position:0 500px;
-    }
-
-}
-
-
-
-
-
-
-
-
-
-/* Globe */
-
-
-#globe{
+#core3d{
 
     position:absolute;
-    top:100px;
-    right:10%;
 
-    width:450px;
-    height:450px;
+    width:500px;
+    height:500px;
+
+    right:8%;
+    top:140px;
 
     z-index:-1;
 
@@ -203,28 +133,38 @@ body{
 
 
 
-/* Header */
+/* ===== Header ===== */
 
 
 header{
 
     position:fixed;
+
     top:0;
+
     width:100%;
 
     padding:25px 8%;
 
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
+
     background:
+
     rgba(2,6,23,.45);
+
 
     backdrop-filter:blur(20px);
 
+
     border-bottom:
+
     1px solid rgba(56,189,248,.2);
+
 
     z-index:100;
 
@@ -232,16 +172,18 @@ header{
 
 
 
-.logo{
 
-    font-size:35px;
+.brand{
+
+    font-size:38px;
+
     font-weight:900;
 
 }
 
 
 
-.logo span{
+.brand span{
 
     color:#38bdf8;
 
@@ -252,7 +194,9 @@ header{
 nav a{
 
     color:white;
+
     text-decoration:none;
+
     margin:15px;
 
     transition:.3s;
@@ -275,7 +219,7 @@ nav a:hover{
 
 
 
-/* Hero */
+/* ===== Hero ===== */
 
 
 .hero{
@@ -292,9 +236,32 @@ nav a:hover{
 
 
 
-.hero-content{
+.hud{
 
-    max-width:700px;
+    max-width:750px;
+
+    padding:50px;
+
+
+    background:
+
+    rgba(255,255,255,.06);
+
+
+    border:
+
+    1px solid rgba(56,189,248,.25);
+
+
+    backdrop-filter:blur(25px);
+
+
+    border-radius:35px;
+
+
+    box-shadow:
+
+    0 0 60px rgba(56,189,248,.15);
 
 }
 
@@ -304,20 +271,24 @@ nav a:hover{
 
     color:#38bdf8;
 
-    margin-bottom:20px;
+    margin-bottom:25px;
 
 }
 
 
 
-.hero h1{
 
-    font-size:120px;
+.title{
 
-    color:white;
+    font-size:130px;
+
+    letter-spacing:10px;
+
 
     text-shadow:
+
     0 0 30px #38bdf8;
+
 
     animation:glitch 3s infinite;
 
@@ -327,31 +298,34 @@ nav a:hover{
 
 @keyframes glitch{
 
-    0%,90%{
 
-        transform:none;
+0%,90%{
 
-    }
+transform:none;
 
-
-    92%{
-
-        transform:translateX(5px);
-
-    }
+}
 
 
-    94%{
+93%{
 
-        transform:translateX(-5px);
+transform:translateX(8px);
 
-    }
+}
+
+
+96%{
+
+transform:translateX(-8px);
+
+}
+
 
 }
 
 
 
-.hero h2{
+
+.hud h2{
 
     font-size:40px;
 
@@ -361,16 +335,17 @@ nav a:hover{
 
 
 
-.hero p{
+.hud p{
 
-    margin-top:20px;
+    margin-top:25px;
 
     color:#cbd5e1;
 
     font-size:20px;
 
-}
+    line-height:1.8;
 
+}
 
 
 
@@ -394,7 +369,7 @@ nav a:hover{
 
     display:inline-block;
 
-    padding:15px 45px;
+    padding:15px 40px;
 
     margin:10px;
 
@@ -414,21 +389,23 @@ nav a:hover{
 
 .btn:hover{
 
-    box-shadow:
-    0 0 40px #38bdf8;
+    transform:translateY(-8px);
 
-    transform:
-    translateY(-8px);
+    box-shadow:
+
+    0 0 40px #38bdf8;
 
 }
 
 
 
-.second{
+.outline{
 
     background:transparent;
 
-    border:1px solid #38bdf8;
+    border:
+
+    1px solid #38bdf8;
 
 }
 
@@ -440,14 +417,14 @@ nav a:hover{
 
 
 
-/* Sections */
+/* ===== Sections ===== */
 
 
 .section{
 
-    padding:120px 8%;
+    min-height:80vh;
 
-    min-height:70vh;
+    padding:120px 8%;
 
     display:flex;
 
@@ -459,24 +436,30 @@ nav a:hover{
 
 
 
-.glass{
+.panel,
+.contact{
 
-    width:90%;
 
-    padding:50px;
+width:90%;
 
-    border-radius:35px;
+padding:50px;
 
-    background:
-    rgba(255,255,255,.07);
 
-    border:
-    1px solid rgba(255,255,255,.15);
+background:
 
-    backdrop-filter:blur(25px);
+rgba(255,255,255,.06);
 
-    box-shadow:
-    0 0 50px rgba(56,189,248,.15);
+
+border:
+
+1px solid rgba(56,189,248,.2);
+
+
+backdrop-filter:blur(25px);
+
+
+border-radius:35px;
+
 
 }
 
@@ -502,6 +485,129 @@ nav a:hover{
 
 
 
+/* Dashboard */
+
+
+.dashboard{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:25px;
+
+}
+
+
+
+.dashboard div{
+
+    width:200px;
+
+    padding:30px;
+
+    text-align:center;
+
+
+    background:
+
+    rgba(0,0,0,.3);
+
+
+    border-radius:20px;
+
+
+}
+
+
+
+.dashboard strong{
+
+    display:block;
+
+    margin-top:15px;
+
+    color:#38bdf8;
+
+}
+
+
+
+
+
+
+
+
+
+/* Skills */
+
+
+.skills{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:25px;
+
+}
+
+
+
+.skill{
+
+    padding:30px;
+
+    width:220px;
+
+    text-align:center;
+
+
+    background:
+
+    rgba(255,255,255,.08);
+
+
+    border-radius:25px;
+
+
+    border:
+
+    1px solid rgba(56,189,248,.2);
+
+
+    transition:.4s;
+
+}
+
+
+
+.skill:hover{
+
+    transform:
+
+    translateY(-15px)
+    rotateY(10deg);
+
+
+    box-shadow:
+
+    0 0 40px #0284c7;
+
+}
+
+
+
+
+
+
+
+
+
 /* Terminal */
 
 
@@ -509,11 +615,13 @@ nav a:hover{
 
     background:#000;
 
-    padding:30px;
+    padding:35px;
 
     border-radius:20px;
 
-    border:1px solid #38bdf8;
+    border:
+
+    1px solid #38bdf8;
 
 }
 
@@ -535,79 +643,22 @@ nav a:hover{
 
 
 
-/* Cards */
+/* Contact */
 
 
-.cards{
-
-    display:flex;
-
-    justify-content:center;
-
-    flex-wrap:wrap;
-
-    gap:25px;
-
-}
-
-
-
-.card{
-
-    width:220px;
-
-    padding:40px;
+.contact{
 
     text-align:center;
 
-    background:
-    rgba(255,255,255,.08);
-
-    border-radius:25px;
-
-    border:
-    1px solid rgba(56,189,248,.3);
-
-    transition:.5s;
-
 }
 
 
 
-.card:hover{
-
-    transform:
-    translateY(-20px)
-    rotateY(10deg);
-
-    box-shadow:
-    0 0 40px #0284c7;
-
-}
-
-
-
-.card h3{
-
-    margin-top:20px;
-
-    color:#38bdf8;
-
-}
-
-
-
-
-
-
-
-
-
-.telegram{
-
-    color:#38bdf8;
+.contact a{
 
     font-size:35px;
+
+    color:#38bdf8;
 
     text-decoration:none;
 
@@ -627,7 +678,7 @@ footer{
 
     padding:30px;
 
-    color:#94a3b8;
+    color:#64748b;
 
 }
 
@@ -637,6 +688,9 @@ footer{
 
 
 
+
+
+/* Mobile */
 
 
 @media(max-width:800px){
@@ -657,7 +711,7 @@ nav{
 
 
 
-.hero h1{
+.title{
 
     font-size:70px;
 
@@ -665,25 +719,26 @@ nav{
 
 
 
-.hero h2{
-
-    font-size:25px;
-
-}
-
-
-
-#globe{
+#core3d{
 
     width:300px;
 
     height:300px;
 
-    right:-80px;
+    right:-100px;
 
     opacity:.5;
 
 }
+
+
+
+.hud{
+
+    padding:30px;
+
+}
+
 
 
 }
