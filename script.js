@@ -1,51 +1,269 @@
-// ======================================
-// LASY V6 - Digital Intelligence Experience
-// ======================================
+//
+// LASY DIGITAL UNIVERSE X
+// Main Interactive Engine
+//
 
 
-// ===== 3D Globe With Three.js =====
+// =============================
+// Loader
+// =============================
+
+window.addEventListener("load",()=>{
+
+    setTimeout(()=>{
+
+        document.getElementById("loader").style.opacity="0";
+
+        setTimeout(()=>{
+
+            document.getElementById("loader").style.display="none";
+
+        },800);
 
 
-const globe = document.getElementById("globe");
+    },1800);
 
-
-const scene = new THREE.Scene();
-
-
-const camera = new THREE.PerspectiveCamera(
-45,
-globe.clientWidth / globe.clientHeight,
-0.1,
-1000
-);
-
-
-const renderer = new THREE.WebGLRenderer({
-    alpha:true,
-    antialias:true
 });
 
 
-renderer.setSize(
-    globe.clientWidth,
-    globe.clientHeight
+
+
+// =============================
+// Canvas Space Background
+// =============================
+
+
+const canvas =
+document.getElementById("space");
+
+
+const ctx =
+canvas.getContext("2d");
+
+
+
+let stars=[];
+
+
+
+function resizeCanvas(){
+
+    canvas.width =
+    window.innerWidth;
+
+    canvas.height =
+    window.innerHeight;
+
+}
+
+
+
+resizeCanvas();
+
+
+
+window.addEventListener(
+"resize",
+resizeCanvas
 );
 
 
-globe.appendChild(renderer.domElement);
+
+class Star{
+
+
+constructor(){
+
+    this.x =
+    Math.random()*canvas.width;
+
+
+    this.y =
+    Math.random()*canvas.height;
+
+
+    this.size =
+    Math.random()*2;
+
+
+    this.speed =
+    Math.random()*0.5+0.1;
+
+}
+
+
+
+move(){
+
+    this.y += this.speed;
+
+
+    if(this.y > canvas.height){
+
+        this.y=0;
+
+        this.x =
+        Math.random()*canvas.width;
+
+    }
+
+}
+
+
+
+draw(){
+
+    ctx.beginPath();
+
+
+    ctx.arc(
+        this.x,
+        this.y,
+        this.size,
+        0,
+        Math.PI*2
+    );
+
+
+    ctx.fillStyle =
+    "#38bdf8";
+
+
+    ctx.fill();
+
+}
+
+
+
+}
+
+
+
+
+for(let i=0;i<250;i++){
+
+    stars.push(
+        new Star()
+    );
+
+}
+
+
+
+function animateStars(){
+
+
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+
+
+stars.forEach(star=>{
+
+    star.move();
+
+    star.draw();
+
+});
+
+
+
+requestAnimationFrame(
+animateStars
+);
+
+
+}
+
+
+
+animateStars();
 
 
 
 
 
-// Globe
 
 
-const geometry =
+
+
+// =============================
+// Three JS Core
+// =============================
+
+
+const container =
+document.getElementById("core3d");
+
+
+
+const scene =
+new THREE.Scene();
+
+
+
+const camera =
+new THREE.PerspectiveCamera(
+
+45,
+
+container.clientWidth /
+container.clientHeight,
+
+0.1,
+
+1000
+
+);
+
+
+
+const renderer =
+new THREE.WebGLRenderer({
+
+alpha:true,
+
+antialias:true
+
+});
+
+
+
+renderer.setSize(
+
+container.clientWidth,
+
+container.clientHeight
+
+);
+
+
+
+container.appendChild(
+renderer.domElement
+);
+
+
+
+
+
+
+// Planet Core
+
+
+const sphere =
 new THREE.SphereGeometry(
+
 2,
+
 64,
+
 64
+
 );
 
 
@@ -53,29 +271,28 @@ new THREE.SphereGeometry(
 const material =
 new THREE.MeshStandardMaterial({
 
-    color:0x0284c7,
+color:0x0284c7,
 
-    emissive:0x001f3f,
+wireframe:true,
 
-    metalness:.8,
-
-    roughness:.3,
-
-    wireframe:true
+emissive:0x001f4d
 
 });
 
 
 
-const earth =
+const core =
 new THREE.Mesh(
-geometry,
+
+sphere,
+
 material
+
 );
 
 
 
-scene.add(earth);
+scene.add(core);
 
 
 
@@ -83,32 +300,30 @@ scene.add(earth);
 
 
 
-// Glow Ring
-
-
-const ringGeometry =
-new THREE.TorusGeometry(
-2.4,
-0.03,
-16,
-100
-);
-
-
-
-const ringMaterial =
-new THREE.MeshBasicMaterial({
-
-    color:0x38bdf8
-
-});
-
+// Outer Ring
 
 
 const ring =
 new THREE.Mesh(
-ringGeometry,
-ringMaterial
+
+new THREE.TorusGeometry(
+
+2.7,
+
+0.04,
+
+16,
+
+100
+
+),
+
+new THREE.MeshBasicMaterial({
+
+color:0x38bdf8
+
+})
+
 );
 
 
@@ -126,17 +341,26 @@ scene.add(ring);
 
 const light =
 new THREE.PointLight(
+
 0x38bdf8,
-3,
+
+5,
+
 100
+
 );
 
 
 light.position.set(
+
 5,
+
 5,
+
 5
+
 );
+
 
 
 scene.add(light);
@@ -144,17 +368,22 @@ scene.add(light);
 
 
 scene.add(
+
 new THREE.AmbientLight(
+
 0xffffff,
-0.5
+
+0.6
+
 )
+
 );
 
 
 
 
 
-camera.position.z = 6;
+camera.position.z=6;
 
 
 
@@ -164,11 +393,11 @@ camera.position.z = 6;
 
 
 
-// Mouse / Touch Control
+// Touch / Mouse Control
 
 
-let targetX = 0;
-let targetY = 0;
+let moveX=0;
+let moveY=0;
 
 
 
@@ -177,26 +406,19 @@ document.addEventListener(
 (e)=>{
 
 
-targetX =
+moveX =
 (e.clientX /
-window.innerWidth - .5)
-* 2;
+window.innerWidth - .5);
 
 
-
-targetY =
+moveY =
 (e.clientY /
-window.innerHeight - .5)
-* 2;
+window.innerHeight - .5);
 
 
 });
 
 
-
-
-
-// Mobile Touch
 
 
 document.addEventListener(
@@ -204,26 +426,19 @@ document.addEventListener(
 (e)=>{
 
 
-if(e.touches.length){
-
-let x =
-e.touches[0].clientX;
+let touch =
+e.touches[0];
 
 
-let y =
-e.touches[0].clientY;
+moveX =
+(touch.clientX /
+window.innerWidth - .5);
 
 
 
-targetX =
-(x/window.innerWidth-.5)*2;
-
-
-targetY =
-(y/window.innerHeight-.5)*2;
-
-
-}
+moveY =
+(touch.clientY /
+window.innerHeight - .5);
 
 
 });
@@ -236,45 +451,54 @@ targetY =
 
 
 
-function animateGlobe(){
+function animateCore(){
 
 
 requestAnimationFrame(
-animateGlobe
+animateCore
 );
 
 
 
-earth.rotation.y += .004;
+core.rotation.y +=0.005;
 
-
-ring.rotation.z += .003;
-
-
-
-earth.rotation.x +=
-(targetY - earth.rotation.x)
-*.03;
+ring.rotation.z +=0.003;
 
 
 
-earth.rotation.y +=
-(targetX - earth.rotation.y)
-*.02;
+core.rotation.x +=
+(
+moveY -
+core.rotation.x
+)
+*0.03;
+
+
+
+core.rotation.y +=
+(
+moveX -
+core.rotation.y
+)
+*0.02;
 
 
 
 renderer.render(
+
 scene,
+
 camera
+
 );
+
 
 
 }
 
 
 
-animateGlobe();
+animateCore();
 
 
 
@@ -284,7 +508,7 @@ animateGlobe();
 
 
 
-// Resize
+// Resize 3D
 
 
 window.addEventListener(
@@ -293,16 +517,20 @@ window.addEventListener(
 
 
 camera.aspect =
-globe.clientWidth /
-globe.clientHeight;
+container.clientWidth /
+container.clientHeight;
 
 
 camera.updateProjectionMatrix();
 
 
+
 renderer.setSize(
-globe.clientWidth,
-globe.clientHeight
+
+container.clientWidth,
+
+container.clientHeight
+
 );
 
 
@@ -316,59 +544,64 @@ globe.clientHeight
 
 
 
-// ===== Changing Text =====
+// =============================
+// Changing Titles
+// =============================
 
 
-const words = [
+const titles=[
 
-"Digital Intelligence Studio",
+"Digital Universe",
 
 "Cyber Developer",
 
+"Future Engineer",
+
 "Creative Programmer",
 
-"Future Technology"
+"Technology Builder"
 
 ];
 
 
-let wordIndex = 0;
+
+let titleIndex=0;
 
 
-const changing =
-document.getElementById(
-"changing-text"
-);
+
+const title =
+document.getElementById("typing");
 
 
 
 setInterval(()=>{
 
 
-wordIndex++;
-
-
-if(wordIndex >= words.length)
-wordIndex = 0;
-
-
-
-changing.style.opacity = 0;
+title.style.opacity="0";
 
 
 
 setTimeout(()=>{
 
 
-changing.textContent =
-words[wordIndex];
+titleIndex++;
 
 
-changing.style.opacity = 1;
+if(titleIndex>=titles.length)
+
+titleIndex=0;
 
 
 
-},400);
+title.innerHTML =
+titles[titleIndex];
+
+
+title.style.opacity="1";
+
+
+
+},500);
 
 
 
@@ -382,27 +615,68 @@ changing.style.opacity = 1;
 
 
 
-// ===== Scroll Reveal =====
+// =============================
+// GSAP Animations
+// =============================
+
+
+gsap.from(".hud",{
+
+opacity:0,
+
+y:80,
+
+duration:1.5,
+
+ease:"power4"
+
+});
+
+
+
+
+gsap.from(".brand",{
+
+opacity:0,
+
+x:-50,
+
+duration:1
+
+});
+
+
+
+
+
+
+
+
+
+// =============================
+// Scroll Reveal
+// =============================
 
 
 const sections =
-document.querySelectorAll(
-".section"
-);
+document.querySelectorAll(".section");
 
 
 
-sections.forEach(
-item=>{
+sections.forEach(section=>{
 
 
-item.style.opacity="0";
+gsap.from(section,{
 
-item.style.transform=
-"translateY(80px)";
+scrollTrigger:false,
 
-item.style.transition=
-"1s ease";
+opacity:0,
+
+y:80,
+
+duration:1
+
+});
 
 
 });
@@ -411,73 +685,30 @@ item.style.transition=
 
 
 
-window.addEventListener(
-"scroll",
-()=>{
-
-
-sections.forEach(
-item=>{
-
-
-let pos =
-item.getBoundingClientRect().top;
 
 
 
-if(
-pos <
-window.innerHeight-120
-){
+
+// =============================
+// Smooth Scroll Lenis
+// =============================
 
 
-item.style.opacity="1";
+const lenis =
+new Lenis();
 
-item.style.transform=
-"translateY(0)";
 
+
+function raf(time){
+
+lenis.raf(time);
+
+requestAnimationFrame(raf);
 
 }
 
 
-});
-
-
-});
-
-
-
-
-
-
-
-
-
-// ===== Parallax Background =====
-
-
-window.addEventListener(
-"scroll",
-()=>{
-
-
-const y =
-window.scrollY;
-
-
-document.querySelector(
-".space-bg"
-).style.transform =
-`translateY(${y*0.15}px) scale(1.1)`;
-
-
-document.querySelector(
-".grid"
-).style.transform =
-`translateY(${y*0.08}px)`;
-
-
-});
+requestAnimationFrame(raf);
 
 
 
@@ -488,6 +719,9 @@ document.querySelector(
 
 
 console.log(
-"%c LASY V6 ONLINE 🌐",
-"color:#38bdf8;font-size:24px;font-weight:bold;"
+
+"%c LASY DIGITAL UNIVERSE X ONLINE 🚀",
+
+"color:#38bdf8;font-size:22px;font-weight:bold"
+
 );
