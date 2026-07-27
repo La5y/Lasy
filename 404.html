@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LASY | 404</title>
+
+<style>
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+
+}
+
+
+body{
+
+height:100vh;
+
+background:#020617;
+
+color:white;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+overflow:hidden;
+
+}
+
+
+
+.container{
+
+text-align:center;
+
+padding:40px;
+
+}
+
+
+
+h1{
+
+font-size:160px;
+
+color:#38bdf8;
+
+letter-spacing:15px;
+
+
+text-shadow:
+
+0 0 20px #38bdf8,
+
+0 0 80px #0284c7;
+
+
+animation:glitch 2s infinite;
+
+}
+
+
+
+h2{
+
+font-size:35px;
+
+margin:20px;
+
+}
+
+
+
+p{
+
+color:#94a3b8;
+
+font-size:18px;
+
+}
+
+
+
+a{
+
+display:inline-block;
+
+margin-top:40px;
+
+padding:15px 45px;
+
+border-radius:50px;
+
+background:#0284c7;
+
+color:white;
+
+text-decoration:none;
+
+transition:.4s;
+
+}
+
+
+
+a:hover{
+
+transform:translateY(-8px);
+
+box-shadow:
+
+0 0 40px #38bdf8;
+
+}
+
+
+
+
+
+.grid{
+
+position:absolute;
+
+inset:0;
+
+background-image:
+
+linear-gradient(
+rgba(56,189,248,.1) 1px,
+transparent 1px
+),
+
+linear-gradient(
+90deg,
+rgba(56,189,248,.1) 1px,
+transparent 1px
+);
+
+
+background-size:50px 50px;
+
+animation:gridMove 10s linear infinite;
+
+z-index:-1;
+
+}
+
+
+
+@keyframes gridMove{
+
+from{
+
+transform:translateY(0);
+
+}
+
+to{
+
+transform:translateY(50px);
+
+}
+
+}
+
+
+
+@keyframes glitch{
+
+
+0%,90%{
+
+transform:none;
+
+}
+
+
+95%{
+
+transform:translateX(10px);
+
+}
+
+
+
+98%{
+
+transform:translateX(-10px);
+
+}
+
+
+
+}
+
+
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+<div class="grid"></div>
+
+
+
+<div class="container">
+
+
+<h1>
+404
+</h1>
+
+
+<h2>
+SYSTEM NOT FOUND
+</h2>
+
+
+<p>
+The requested digital path does not exist.
+</p>
+
+
+
+<a href="./">
+RETURN TO CORE
+</a>
+
+
+
+</div>
+
+
+
+</body>
+
+</html>
