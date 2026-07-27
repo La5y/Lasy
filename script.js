@@ -1,42 +1,120 @@
 // ===============================
-// LASY Website Script
+// LASY V2 - Cyber Portfolio JS
 // ===============================
 
 
-// Matrix Effect
+// Particles Background
 
-const canvas = document.getElementById("matrix");
+const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 
 
-canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 
-const letters =
-"01ABCDEFGHIJKLMNOPQRSTUVWXYZ{}[]<>/\\$#@";
+let particles = [];
 
 
-const fontSize = 16;
+class Particle {
 
-let columns = canvas.width / fontSize;
+    constructor(){
+
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+
+        this.size = Math.random() * 2 + 1;
+
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+
+    }
 
 
-let drops = [];
+    update(){
+
+        this.x += this.speedX;
+        this.y += this.speedY;
 
 
-for(let i = 0; i < columns; i++){
+        if(
+            this.x < 0 ||
+            this.x > canvas.width
+        ){
 
-    drops[i] = 1;
+            this.speedX *= -1;
+
+        }
+
+
+        if(
+            this.y < 0 ||
+            this.y > canvas.height
+        ){
+
+            this.speedY *= -1;
+
+        }
+
+    }
+
+
+
+    draw(){
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.x,
+            this.y,
+            this.size,
+            0,
+            Math.PI * 2
+        );
+
+
+        ctx.fillStyle = "#00ff99";
+
+        ctx.fill();
+
+    }
 
 }
 
 
 
-function drawMatrix(){
 
-    ctx.fillStyle = "rgba(0,0,0,0.08)";
-    ctx.fillRect(
+
+function createParticles(){
+
+    particles = [];
+
+    for(
+        let i = 0;
+        i < 120;
+        i++
+    ){
+
+        particles.push(
+            new Particle()
+        );
+
+    }
+
+}
+
+
+
+createParticles();
+
+
+
+
+
+function animate(){
+
+
+    ctx.clearRect(
         0,
         0,
         canvas.width,
@@ -44,53 +122,35 @@ function drawMatrix(){
     );
 
 
-    ctx.fillStyle = "#00ff99";
-    ctx.font = fontSize + "px monospace";
+    particles.forEach(
+        particle=>{
 
+            particle.update();
 
-    for(let i = 0; i < drops.length; i++){
-
-        let text =
-        letters[
-            Math.floor(
-                Math.random()*letters.length
-            )
-        ];
-
-
-        ctx.fillText(
-            text,
-            i * fontSize,
-            drops[i] * fontSize
-        );
-
-
-
-        if(
-            drops[i] * fontSize >
-            canvas.height &&
-            Math.random() > 0.975
-        ){
-
-            drops[i] = 0;
+            particle.draw();
 
         }
+    );
 
 
-        drops[i]++;
+    requestAnimationFrame(
+        animate
+    );
 
-    }
 
 }
 
 
-setInterval(drawMatrix,35);
+animate();
 
 
 
 
 
-// Resize Matrix
+
+
+
+// Resize Canvas
 
 
 window.addEventListener(
@@ -98,21 +158,15 @@ window.addEventListener(
 ()=>{
 
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+canvas.width =
+window.innerWidth;
 
 
-columns = canvas.width / fontSize;
+canvas.height =
+window.innerHeight;
 
 
-drops = [];
-
-
-for(let i = 0; i < columns; i++){
-
-    drops[i]=1;
-
-}
+createParticles();
 
 
 });
@@ -124,11 +178,78 @@ for(let i = 0; i < columns; i++){
 
 
 
-// Scroll Animation
+
+// Typing Effect
+
+
+const text =
+"Programming • Security • Development";
+
+
+const typing =
+document.getElementById("typing");
+
+
+let index = 0;
+
+
+
+function typeWriter(){
+
+
+    if(index < text.length){
+
+        typing.innerHTML +=
+        text.charAt(index);
+
+
+        index++;
+
+        setTimeout(
+            typeWriter,
+            80
+        );
+
+    }
+
+}
+
+
+
+typing.innerHTML = "";
+
+typeWriter();
+
+
+
+
+
+
+
+
+
+// Scroll Reveal
 
 
 const sections =
 document.querySelectorAll(".section");
+
+
+
+sections.forEach(
+section=>{
+
+    section.style.opacity = "0";
+
+    section.style.transform =
+    "translateY(40px)";
+
+    section.style.transition =
+    "0.8s ease";
+
+});
+
+
 
 
 
@@ -137,22 +258,22 @@ window.addEventListener(
 ()=>{
 
 
-sections.forEach(section=>{
+sections.forEach(
+section=>{
 
 
-let position =
+let top =
 section.getBoundingClientRect().top;
 
 
-let screen =
-window.innerHeight / 1.3;
-
-
-
-if(position < screen){
+if(
+top < window.innerHeight - 100
+){
 
 section.style.opacity="1";
-section.style.transform="translateY(0)";
+
+section.style.transform=
+"translateY(0)";
 
 
 }
@@ -168,20 +289,33 @@ section.style.transform="translateY(0)";
 
 
 
-// Initial Animation Style
 
 
-sections.forEach(section=>{
+
+// Terminal Animation
 
 
-section.style.opacity="0";
+const terminalLines =
+document.querySelectorAll(
+".terminal p"
+);
 
-section.style.transform=
-"translateY(50px)";
+
+terminalLines.forEach(
+(line,index)=>{
 
 
-section.style.transition=
-"0.8s ease";
+line.style.opacity="0";
+
+
+setTimeout(
+()=>{
+
+line.style.opacity="1";
+
+},
+index * 700
+);
 
 
 });
@@ -192,10 +326,12 @@ section.style.transition=
 
 
 
-// Console Message
+
+
+// Console Branding
 
 
 console.log(
-"%c LASY Website Loaded 🚀",
-"color:#00ff99;font-size:20px;font-weight:bold;"
+"%c LASY V2 Loaded 🚀",
+"color:#00ff99;font-size:22px;font-weight:bold;"
 );
