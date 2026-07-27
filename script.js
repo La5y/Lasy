@@ -1,199 +1,46 @@
-//
+
+// ======================================
 // LASY DIGITAL UNIVERSE X
-// Main Interactive Engine
-//
+// MAIN ENGINE
+// ======================================
 
 
-// =============================
+
 // Loader
-// =============================
 
 window.addEventListener("load",()=>{
 
     setTimeout(()=>{
 
-        document.getElementById("loader").style.opacity="0";
+        const loader =
+        document.getElementById("loader");
+
+
+        loader.style.opacity="0";
+
 
         setTimeout(()=>{
 
-            document.getElementById("loader").style.display="none";
+            loader.style.display="none";
 
-        },800);
+        },1000);
 
 
-    },1800);
+    },1500);
 
 });
 
 
 
 
-// =============================
-// Canvas Space Background
-// =============================
 
 
-const canvas =
-document.getElementById("space");
 
 
-const ctx =
-canvas.getContext("2d");
 
-
-
-let stars=[];
-
-
-
-function resizeCanvas(){
-
-    canvas.width =
-    window.innerWidth;
-
-    canvas.height =
-    window.innerHeight;
-
-}
-
-
-
-resizeCanvas();
-
-
-
-window.addEventListener(
-"resize",
-resizeCanvas
-);
-
-
-
-class Star{
-
-
-constructor(){
-
-    this.x =
-    Math.random()*canvas.width;
-
-
-    this.y =
-    Math.random()*canvas.height;
-
-
-    this.size =
-    Math.random()*2;
-
-
-    this.speed =
-    Math.random()*0.5+0.1;
-
-}
-
-
-
-move(){
-
-    this.y += this.speed;
-
-
-    if(this.y > canvas.height){
-
-        this.y=0;
-
-        this.x =
-        Math.random()*canvas.width;
-
-    }
-
-}
-
-
-
-draw(){
-
-    ctx.beginPath();
-
-
-    ctx.arc(
-        this.x,
-        this.y,
-        this.size,
-        0,
-        Math.PI*2
-    );
-
-
-    ctx.fillStyle =
-    "#38bdf8";
-
-
-    ctx.fill();
-
-}
-
-
-
-}
-
-
-
-
-for(let i=0;i<250;i++){
-
-    stars.push(
-        new Star()
-    );
-
-}
-
-
-
-function animateStars(){
-
-
-ctx.clearRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-
-
-stars.forEach(star=>{
-
-    star.move();
-
-    star.draw();
-
-});
-
-
-
-requestAnimationFrame(
-animateStars
-);
-
-
-}
-
-
-
-animateStars();
-
-
-
-
-
-
-
-
-
-// =============================
-// Three JS Core
-// =============================
+// ======================================
+// THREE JS CORE
+// ======================================
 
 
 const container =
@@ -252,10 +99,11 @@ renderer.domElement
 
 
 
-// Planet Core
+
+// Core Sphere
 
 
-const sphere =
+const coreGeometry =
 new THREE.SphereGeometry(
 
 2,
@@ -268,14 +116,16 @@ new THREE.SphereGeometry(
 
 
 
-const material =
+const coreMaterial =
 new THREE.MeshStandardMaterial({
 
 color:0x0284c7,
 
 wireframe:true,
 
-emissive:0x001f4d
+emissive:0x003b66,
+
+metalness:0.8
 
 });
 
@@ -284,9 +134,9 @@ emissive:0x001f4d
 const core =
 new THREE.Mesh(
 
-sphere,
+coreGeometry,
 
-material
+coreMaterial
 
 );
 
@@ -300,7 +150,8 @@ scene.add(core);
 
 
 
-// Outer Ring
+
+// Energy Ring
 
 
 const ring =
@@ -308,15 +159,16 @@ new THREE.Mesh(
 
 new THREE.TorusGeometry(
 
-2.7,
+2.6,
 
-0.04,
+0.035,
 
-16,
+32,
 
-100
+120
 
 ),
+
 
 new THREE.MeshBasicMaterial({
 
@@ -329,6 +181,7 @@ color:0x38bdf8
 
 
 scene.add(ring);
+
 
 
 
@@ -349,6 +202,7 @@ new THREE.PointLight(
 100
 
 );
+
 
 
 light.position.set(
@@ -393,27 +247,30 @@ camera.position.z=6;
 
 
 
-// Touch / Mouse Control
+// Touch / Mouse Movement
 
 
-let moveX=0;
-let moveY=0;
+let mouseX=0;
+
+let mouseY=0;
 
 
 
-document.addEventListener(
+window.addEventListener(
 "mousemove",
 (e)=>{
 
 
-moveX =
+mouseX =
 (e.clientX /
-window.innerWidth - .5);
+window.innerWidth -0.5);
 
 
-moveY =
+
+mouseY =
 (e.clientY /
-window.innerHeight - .5);
+window.innerHeight -0.5);
+
 
 
 });
@@ -421,7 +278,9 @@ window.innerHeight - .5);
 
 
 
-document.addEventListener(
+
+
+window.addEventListener(
 "touchmove",
 (e)=>{
 
@@ -430,15 +289,15 @@ let touch =
 e.touches[0];
 
 
-moveX =
+mouseX =
 (touch.clientX /
-window.innerWidth - .5);
+window.innerWidth -0.5);
 
 
 
-moveY =
+mouseY =
 (touch.clientY /
-window.innerHeight - .5);
+window.innerHeight -0.5);
 
 
 });
@@ -460,27 +319,22 @@ animateCore
 
 
 
-core.rotation.y +=0.005;
+core.rotation.y +=0.004;
 
-ring.rotation.z +=0.003;
+
+ring.rotation.z +=0.006;
 
 
 
 core.rotation.x +=
-(
-moveY -
-core.rotation.x
-)
+(mouseY-core.rotation.x)
 *0.03;
 
 
 
 core.rotation.y +=
-(
-moveX -
-core.rotation.y
-)
-*0.02;
+(mouseX-core.rotation.y)
+*0.03;
 
 
 
@@ -491,7 +345,6 @@ scene,
 camera
 
 );
-
 
 
 }
@@ -508,7 +361,7 @@ animateCore();
 
 
 
-// Resize 3D
+// Resize
 
 
 window.addEventListener(
@@ -517,6 +370,7 @@ window.addEventListener(
 
 
 camera.aspect =
+
 container.clientWidth /
 container.clientHeight;
 
@@ -544,12 +398,12 @@ container.clientHeight
 
 
 
-// =============================
-// Changing Titles
-// =============================
+// ======================================
+// TEXT SYSTEM
+// ======================================
 
 
-const titles=[
+const words=[
 
 "Digital Universe",
 
@@ -559,17 +413,19 @@ const titles=[
 
 "Creative Programmer",
 
-"Technology Builder"
+"Technology Builder",
+
+"Digital Creator"
 
 ];
 
 
 
-let titleIndex=0;
+let index=0;
 
 
 
-const title =
+const typing =
 document.getElementById("typing");
 
 
@@ -577,31 +433,32 @@ document.getElementById("typing");
 setInterval(()=>{
 
 
-title.style.opacity="0";
+typing.style.opacity="0";
 
 
 
 setTimeout(()=>{
 
 
-titleIndex++;
+index++;
 
 
-if(titleIndex>=titles.length)
+if(index>=words.length)
 
-titleIndex=0;
-
-
-
-title.innerHTML =
-titles[titleIndex];
-
-
-title.style.opacity="1";
+index=0;
 
 
 
-},500);
+typing.innerHTML =
+words[index];
+
+
+
+typing.style.opacity="1";
+
+
+
+},400);
 
 
 
@@ -615,71 +472,51 @@ title.style.opacity="1";
 
 
 
-// =============================
-// GSAP Animations
-// =============================
+// ======================================
+// GSAP INTRO
+// ======================================
 
 
-gsap.from(".hud",{
+
+gsap.from(".hud-box",{
+
+y:100,
 
 opacity:0,
 
-y:80,
-
 duration:1.5,
 
-ease:"power4"
+ease:"power4.out"
 
 });
-
 
 
 
 gsap.from(".brand",{
 
-opacity:0,
-
 x:-50,
 
+opacity:0,
+
 duration:1
 
 });
 
 
 
+gsap.from("nav a",{
 
-
-
-
-
-
-// =============================
-// Scroll Reveal
-// =============================
-
-
-const sections =
-document.querySelectorAll(".section");
-
-
-
-sections.forEach(section=>{
-
-
-gsap.from(section,{
-
-scrollTrigger:false,
+y:-30,
 
 opacity:0,
 
-y:80,
+stagger:.1,
 
 duration:1
 
 });
 
 
-});
 
 
 
@@ -687,29 +524,108 @@ duration:1
 
 
 
-
-
-// =============================
-// Smooth Scroll Lenis
-// =============================
+// ======================================
+// LENIS SMOOTH SCROLL
+// ======================================
 
 
 const lenis =
-new Lenis();
+new Lenis({
+
+smoothWheel:true
+
+});
 
 
 
-function raf(time){
+function scrollFrame(time){
 
 lenis.raf(time);
 
-requestAnimationFrame(raf);
+requestAnimationFrame(
+scrollFrame
+);
 
 }
 
 
-requestAnimationFrame(raf);
 
+requestAnimationFrame(
+scrollFrame
+);
+
+
+
+
+
+
+
+
+
+// ======================================
+// CARD 3D EFFECT
+// ======================================
+
+
+const cards =
+document.querySelectorAll(
+".skill,.event,.dashboard div"
+);
+
+
+
+cards.forEach(card=>{
+
+
+card.addEventListener(
+"mousemove",
+(e)=>{
+
+
+let x =
+e.offsetX /
+card.offsetWidth;
+
+
+let y =
+e.offsetY /
+card.offsetHeight;
+
+
+
+card.style.transform =
+`
+perspective(800px)
+
+rotateX(${y*10-5}deg)
+
+rotateY(${x*10-5}deg)
+
+scale(1.05)
+
+`;
+
+
+
+});
+
+
+
+
+card.addEventListener(
+"mouseleave",
+()=>{
+
+
+card.style.transform="";
+
+
+
+});
+
+
+
+});
 
 
 
@@ -719,9 +635,6 @@ requestAnimationFrame(raf);
 
 
 console.log(
-
-"%c LASY DIGITAL UNIVERSE X ONLINE 🚀",
-
-"color:#38bdf8;font-size:22px;font-weight:bold"
-
+"%c LASY X ONLINE 🚀",
+"color:#38bdf8;font-size:22px;font-weight:bold;"
 );
