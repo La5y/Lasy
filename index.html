@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>LASY | Digital Intelligence Studio</title>
+<title>LASY | Digital Intelligence</title>
 
-<meta name="description" content="LASY Digital Intelligence Studio - Programming, Development and Technology">
+<meta name="description" content="LASY Digital Intelligence Experience">
 
 <link rel="stylesheet" href="style.css">
 
@@ -20,20 +20,38 @@
 <body>
 
 
-<!-- Custom Cursor -->
-<div class="cursor"></div>
+<!-- Loading Screen -->
 
+<div id="loader">
 
+<div class="loader-logo">
+LASY
+</div>
 
-<!-- Animated Background -->
-
-<div class="background">
-
-<div class="blob blob1"></div>
-<div class="blob blob2"></div>
-<div class="blob blob3"></div>
+<div class="loading-text">
+Initializing System...
+</div>
 
 </div>
+
+
+
+
+
+<!-- Background -->
+
+<div class="space-bg"></div>
+
+<div class="grid"></div>
+
+
+
+
+
+<!-- 3D Globe -->
+
+<div id="globe"></div>
+
 
 
 
@@ -43,16 +61,15 @@
 <header>
 
 <div class="logo">
-LASY<span>.</span>
+LASY<span>_</span>
 </div>
 
 
 <nav>
 
 <a href="#home">Home</a>
-<a href="#about">About</a>
-<a href="#stack">Stack</a>
 <a href="#system">System</a>
+<a href="#stack">Stack</a>
 <a href="#contact">Contact</a>
 
 </nav>
@@ -65,46 +82,41 @@ LASY<span>.</span>
 
 
 
+
+
 <!-- Hero -->
+
 
 <section class="hero" id="home">
 
 
-<div class="hero-card">
+<div class="hero-content">
 
 
 <div class="status">
-
 ● SYSTEM ONLINE
-
 </div>
 
 
-
-<h1>
-
-<span class="glitch">
+<h1 class="glitch">
 LASY
-</span>
-
 </h1>
 
 
 
-<h2>
-
+<h2 id="changing-text">
 Digital Intelligence Studio
-
 </h2>
 
 
 
 <p>
 
-Building modern digital experiences
-with code, creativity and technology.
+Building futuristic digital experiences
+with code and technology.
 
 </p>
+
 
 
 
@@ -112,160 +124,17 @@ with code, creativity and technology.
 
 
 <a href="https://t.me/t5_ek" class="btn">
-
-Contact Me
-
+Contact
 </a>
 
 
 
-<a href="#stack" class="btn outline">
-
-Explore Stack
-
+<a href="#stack" class="btn second">
+Explore
 </a>
 
 
 </div>
-
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-
-<!-- About -->
-
-
-<section class="section" id="about">
-
-
-<h2>
-About LASY
-</h2>
-
-
-
-<p>
-
-Developer focused on programming,
-web technologies, automation and modern software solutions.
-
-</p>
-
-
-
-<div class="stats">
-
-
-<div>
-<strong>7+</strong>
-<span>Languages</span>
-</div>
-
-
-<div>
-<strong>24/7</strong>
-<span>Learning</span>
-</div>
-
-
-<div>
-<strong>∞</strong>
-<span>Future</span>
-</div>
-
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<!-- Tech Stack -->
-
-<section class="section" id="stack">
-
-
-<h2>
-Technology Stack
-</h2>
-
-
-
-<div class="stack">
-
-
-<div class="tech">
-🐍
-<h3>Python</h3>
-</div>
-
-
-
-<div class="tech">
-⚛️
-<h3>React</h3>
-</div>
-
-
-
-<div class="tech">
-▲
-<h3>Next.js</h3>
-</div>
-
-
-
-<div class="tech">
-💠
-<h3>TypeScript</h3>
-</div>
-
-
-
-<div class="tech">
-🌐
-<h3>HTML/CSS</h3>
-</div>
-
-
-
-<div class="tech">
-⚙️
-<h3>C++</h3>
-</div>
-
-
-
-<div class="tech">
-🐘
-<h3>PHP</h3>
-</div>
-
-
-
-<div class="tech">
-🐧
-<h3>Linux</h3>
-</div>
-
 
 
 </div>
@@ -287,47 +156,29 @@ Technology Stack
 <section class="section" id="system">
 
 
-<h2>
-LASY Core System
-</h2>
+<div class="glass">
 
+
+<h2>
+LASY CORE
+</h2>
 
 
 <div class="terminal">
 
+<p>> System Booting...</p>
 
-<p>
-root@lasy:~$
-</p>
+<p>> AI Interface Loaded ✓</p>
 
+<p>> Development Engine Active ✓</p>
 
-<p>
-> Initializing system...
-</p>
-
-
-<p>
-> Loading technologies...
-</p>
-
-
-<p>
-> Development modules active ✓
-</p>
-
-
-<p>
-> Security layer enabled ✓
-</p>
-
-
-<p>
-> System Ready.
-</p>
-
+<p>> Security Module Ready ✓</p>
 
 </div>
 
+
+
+</div>
 
 
 </section>
@@ -340,57 +191,59 @@ root@lasy:~$
 
 
 
-<!-- Features -->
+<!-- Tech -->
 
-<section class="section">
+
+<section class="section" id="stack">
 
 
 <h2>
-Core Features
+Technology Matrix
 </h2>
 
 
 
-<div class="features">
+<div class="cards">
 
 
-<div>
-⚡
-<h3>
-Fast
-</h3>
-<p>
-Modern performance
-</p>
+<div class="card">
+🐍
+<h3>Python</h3>
 </div>
 
 
-
-<div>
-🧠
-<h3>
-Smart
-</h3>
-<p>
-Creative solutions
-</p>
+<div class="card">
+⚛️
+<h3>React</h3>
 </div>
 
 
-
-<div>
-🔷
-<h3>
-Modern
-</h3>
-<p>
-Future interface
-</p>
+<div class="card">
+▲
+<h3>Next.js</h3>
 </div>
 
 
+<div class="card">
+💠
+<h3>TypeScript</h3>
+</div>
+
+
+<div class="card">
+🌐
+<h3>Web</h3>
+</div>
+
+
+<div class="card">
+🐧
+<h3>Linux</h3>
+</div>
+
 
 </div>
+
 
 
 </section>
@@ -409,17 +262,22 @@ Future interface
 <section class="section" id="contact">
 
 
+<div class="glass">
+
+
 <h2>
-Contact
+Connect
 </h2>
 
 
-<a class="telegram" href="https://t.me/t5_ek">
+<a href="https://t.me/t5_ek" class="telegram">
 
 t.me/t5_ek
 
 </a>
 
+
+</div>
 
 
 </section>
@@ -431,15 +289,21 @@ t.me/t5_ek
 
 
 
+
 <footer>
 
-© 2026 LASY — Digital Intelligence Studio
+© 2026 LASY Digital Intelligence
 
 </footer>
 
 
 
 
+
+
+<!-- Three.js -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script src="script.js"></script>
 
