@@ -1,12 +1,14 @@
+
 // ======================================
-// LASY DIGITAL UNIVERSE X
-// NETWORK VISUAL ENGINE
+// LASY X LIGHT NETWORK ENGINE
 // ======================================
 
 
 const network =
 document.getElementById("network");
 
+
+if(network){
 
 
 const canvas =
@@ -26,24 +28,29 @@ let nodes=[];
 
 
 
-function resizeNetwork(){
+
+
+function resize(){
+
 
 canvas.width =
-window.innerWidth;
+innerWidth;
+
 
 canvas.height =
-window.innerHeight;
+innerHeight;
+
 
 }
 
 
 
-resizeNetwork();
+resize();
 
 
 window.addEventListener(
 "resize",
-resizeNetwork
+resize
 );
 
 
@@ -66,50 +73,51 @@ this.y =
 Math.random()*canvas.height;
 
 
+
 this.size =
-Math.random()*3+1;
-
-
-this.speedX =
-(Math.random()-.5)*0.4;
-
-
-this.speedY =
-(Math.random()-.5)*0.4;
-
-
-}
+Math.random()*2+1;
 
 
 
-move(){
+this.vx =
+(Math.random()-.5)*0.3;
 
 
-this.x += this.speedX;
-
-this.y += this.speedY;
-
-
-
-if(
-this.x < 0 ||
-this.x > canvas.width
-)
-
-this.speedX *= -1;
-
-
-
-if(
-this.y < 0 ||
-this.y > canvas.height
-)
-
-this.speedY *= -1;
+this.vy =
+(Math.random()-.5)*0.3;
 
 
 }
 
+
+
+update(){
+
+
+this.x += this.vx;
+
+this.y += this.vy;
+
+
+
+if(
+this.x<0 ||
+this.x>canvas.width
+)
+
+this.vx*=-1;
+
+
+
+if(
+this.y<0 ||
+this.y>canvas.height
+)
+
+this.vy*=-1;
+
+
+}
 
 
 
@@ -140,15 +148,8 @@ ctx.fillStyle =
 "#38bdf8";
 
 
-ctx.shadowBlur =
-20;
-
-
-ctx.shadowColor =
-"#38bdf8";
-
-
 ctx.fill();
+
 
 
 }
@@ -171,12 +172,13 @@ function createNodes(){
 nodes=[];
 
 
+
 let count =
-window.innerWidth < 700
+innerWidth < 700
 ?
-25
+15
 :
-60;
+35;
 
 
 
@@ -213,6 +215,7 @@ createNodes();
 function connect(){
 
 
+
 for(
 let i=0;
 i<nodes.length;
@@ -221,7 +224,7 @@ i++
 
 
 for(
-let j=i;
+let j=i+1;
 j<nodes.length;
 j++
 ){
@@ -239,25 +242,18 @@ nodes[j].y;
 
 
 let distance =
-Math.sqrt(
-dx*dx+dy*dy
-);
+dx*dx+dy*dy;
 
 
 
-
-if(distance < 220){
+if(distance < 12000){
 
 
 ctx.beginPath();
 
 
 ctx.strokeStyle =
-"rgba(56,189,248,0.18)";
-
-
-ctx.lineWidth =
-1;
+"rgba(56,189,248,.12)";
 
 
 
@@ -288,10 +284,6 @@ ctx.stroke();
 }
 
 
-
-}
-
-
 }
 
 
@@ -300,13 +292,17 @@ ctx.stroke();
 
 
 
+}
 
 
 
 
 
 
-function animateNetwork(){
+
+
+
+function animate(){
 
 
 ctx.clearRect(
@@ -323,11 +319,10 @@ canvas.height
 
 
 
-nodes.forEach(
-(node)=>{
+nodes.forEach(node=>{
 
 
-node.move();
+node.update();
 
 node.draw();
 
@@ -341,69 +336,24 @@ connect();
 
 
 requestAnimationFrame(
-animateNetwork
+animate
 );
+
 
 
 }
 
 
 
-animateNetwork();
+animate();
 
 
 
-
-
-
-
-// Data pulse effect
-
-
-setInterval(()=>{
-
-
-const pulse =
-document.createElement("div");
-
-
-pulse.className =
-"network-pulse";
-
-
-pulse.style.left =
-Math.random()*100+"%";
-
-
-pulse.style.top =
-Math.random()*100+"%";
-
-
-
-network.appendChild(
-pulse
-);
-
-
-
-setTimeout(()=>{
-
-
-pulse.remove();
-
-
-},2000);
-
-
-
-},1500);
-
-
-
+}
 
 
 
 console.log(
-"%c NETWORK SYSTEM ONLINE 🌐",
+"%c LIGHT NETWORK ONLINE 🌐",
 "color:#38bdf8;font-size:18px;"
 );
