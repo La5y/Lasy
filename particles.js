@@ -1,16 +1,15 @@
 
 // ======================================
-// LASY DIGITAL UNIVERSE X
-// PARTICLE SPACE ENGINE
+// LASY X PERFORMANCE PARTICLE ENGINE
 // ======================================
 
 
-const particleCanvas =
+const canvas =
 document.getElementById("space");
 
 
-const particleCtx =
-particleCanvas.getContext("2d");
+const ctx =
+canvas.getContext("2d");
 
 
 
@@ -22,7 +21,7 @@ x:null,
 
 y:null,
 
-radius:160
+radius:120
 
 };
 
@@ -30,83 +29,41 @@ radius:160
 
 
 
+function resize(){
 
+canvas.width =
+innerWidth;
 
-function resizeParticles(){
-
-
-particleCanvas.width =
-window.innerWidth;
-
-
-particleCanvas.height =
-window.innerHeight;
-
+canvas.height =
+innerHeight;
 
 }
 
 
 
-resizeParticles();
-
+resize();
 
 
 window.addEventListener(
 "resize",
-resizeParticles
+resize
 );
 
 
 
 
 
-
-
-// Mouse Control
-
-
 window.addEventListener(
 "mousemove",
 (e)=>{
 
-
 mouse.x =
 e.clientX;
-
 
 mouse.y =
 e.clientY;
 
-
 });
-
-
-
-
-
-
-
-// Touch Control
-
-
-window.addEventListener(
-"touchmove",
-(e)=>{
-
-
-mouse.x =
-e.touches[0].clientX;
-
-
-mouse.y =
-e.touches[0].clientY;
-
-
-});
-
-
-
-
 
 
 
@@ -117,39 +74,23 @@ class Particle{
 
 constructor(){
 
-
 this.x =
-Math.random()
-*
-particleCanvas.width;
-
+Math.random()*canvas.width;
 
 this.y =
-Math.random()
-*
-particleCanvas.height;
-
-
+Math.random()*canvas.height;
 
 this.size =
-Math.random()*2+0.5;
-
+Math.random()*1.8+0.5;
 
 
 this.speedX =
-(Math.random()-.5)
-*0.8;
-
+(Math.random()-.5)*0.4;
 
 
 this.speedY =
-(Math.random()-.5)
-*0.8;
+(Math.random()-.5)*0.4;
 
-
-
-this.opacity =
-Math.random();
 
 }
 
@@ -158,75 +99,21 @@ Math.random();
 update(){
 
 
-this.x +=
-this.speedX;
+this.x += this.speedX;
 
-
-this.y +=
-this.speedY;
+this.y += this.speedY;
 
 
 
-
-if(
-this.x <0 ||
-this.x > particleCanvas.width
-)
+if(this.x<0 || this.x>canvas.width)
 
 this.speedX *= -1;
 
 
 
-
-if(
-this.y <0 ||
-this.y > particleCanvas.height
-)
+if(this.y<0 || this.y>canvas.height)
 
 this.speedY *= -1;
-
-
-
-
-
-// Mouse attraction
-
-
-if(mouse.x){
-
-
-let dx =
-this.x-mouse.x;
-
-
-let dy =
-this.y-mouse.y;
-
-
-
-let distance =
-Math.sqrt(
-dx*dx+dy*dy
-);
-
-
-
-if(distance < mouse.radius){
-
-
-this.x +=
-dx/80;
-
-
-this.y +=
-dy/80;
-
-
-}
-
-
-
-}
 
 
 
@@ -237,11 +124,10 @@ dy/80;
 draw(){
 
 
-particleCtx.beginPath();
+ctx.beginPath();
 
 
-
-particleCtx.arc(
+ctx.arc(
 
 this.x,
 
@@ -257,34 +143,19 @@ Math.PI*2
 
 
 
-particleCtx.fillStyle =
-`rgba(56,189,248,${this.opacity})`;
-
-
-
-particleCtx.shadowBlur =
-15;
-
-
-particleCtx.shadowColor =
+ctx.fillStyle =
 "#38bdf8";
 
 
-
-particleCtx.fill();
-
-
-
-}
-
-
-
+ctx.fill();
 
 
 
 }
 
 
+
+}
 
 
 
@@ -299,29 +170,26 @@ particles=[];
 
 
 
-let amount =
-window.innerWidth < 700
+let count =
+innerWidth < 700
 ?
-80
+45
 :
-180;
+90;
 
 
 
 for(
 let i=0;
-i<amount;
+i<count;
 i++
 ){
-
 
 particles.push(
 new Particle()
 );
 
-
 }
-
 
 
 }
@@ -337,36 +205,33 @@ createParticles();
 
 
 
-
-// Connect Network Lines
-
-
-function connectParticles(){
-
+function connect(){
 
 
 for(
-let a=0;
-a<particles.length;
-a++
+let i=0;
+i<particles.length;
+i++
 ){
 
 
 for(
-let b=a;
-b<particles.length;
-b++
+let j=i+1;
+j<particles.length;
+j++
 ){
+
 
 
 let dx =
-particles[a].x -
-particles[b].x;
+particles[i].x -
+particles[j].x;
+
 
 
 let dy =
-particles[a].y -
-particles[b].y;
+particles[i].y -
+particles[j].y;
 
 
 
@@ -375,44 +240,38 @@ dx*dx+dy*dy;
 
 
 
-if(distance < 12000){
+
+if(distance < 7000){
 
 
-particleCtx.beginPath();
+ctx.beginPath();
 
 
-
-particleCtx.strokeStyle =
-"rgba(56,189,248,0.10)";
-
+ctx.strokeStyle =
+"rgba(56,189,248,.08)";
 
 
-particleCtx.lineWidth =
-1;
+ctx.moveTo(
 
+particles[i].x,
 
-
-particleCtx.moveTo(
-
-particles[a].x,
-
-particles[a].y
+particles[i].y
 
 );
 
 
 
-particleCtx.lineTo(
+ctx.lineTo(
 
-particles[b].x,
+particles[j].x,
 
-particles[b].y
+particles[j].y
 
 );
 
 
 
-particleCtx.stroke();
+ctx.stroke();
 
 
 }
@@ -436,65 +295,49 @@ particleCtx.stroke();
 
 
 
-
-function particleAnimation(){
-
+function animate(){
 
 
-particleCtx.clearRect(
+ctx.clearRect(
 
 0,
 
 0,
 
-particleCanvas.width,
+canvas.width,
 
-particleCanvas.height
+canvas.height
 
 );
 
 
 
-
-particles.forEach(
-(p)=>{
-
+particles.forEach(p=>{
 
 p.update();
 
 p.draw();
 
-
 });
 
 
 
-
-connectParticles();
-
+connect();
 
 
 
 requestAnimationFrame(
-particleAnimation
+animate
 );
-
 
 
 }
 
 
 
-particleAnimation();
-
-
-
-
-
-
+animate();
 
 
 console.log(
-"%c PARTICLE ENGINE ONLINE ✦",
-"color:#38bdf8;font-size:18px;"
+"LASY LIGHT PARTICLE ENGINE ⚡"
 );
