@@ -1,32 +1,35 @@
 
 // ======================================
-// LASY DIGITAL UNIVERSE X
-// MAIN ENGINE
+// LASY X PERFORMANCE CORE ENGINE
 // ======================================
-
 
 
 // Loader
 
 window.addEventListener("load",()=>{
 
-    setTimeout(()=>{
-
-        const loader =
-        document.getElementById("loader");
+const loader =
+document.getElementById("loader");
 
 
-        loader.style.opacity="0";
+if(loader){
+
+setTimeout(()=>{
+
+loader.style.opacity="0";
 
 
-        setTimeout(()=>{
+setTimeout(()=>{
 
-            loader.style.display="none";
+loader.remove();
 
-        },1000);
+},800);
 
 
-    },1500);
+},1000);
+
+
+}
 
 });
 
@@ -39,12 +42,16 @@ window.addEventListener("load",()=>{
 
 
 // ======================================
-// THREE JS CORE
+// THREE JS LIGHT CORE
 // ======================================
 
 
 const container =
 document.getElementById("core3d");
+
+
+
+if(container){
 
 
 
@@ -63,7 +70,7 @@ container.clientHeight,
 
 0.1,
 
-1000
+100
 
 );
 
@@ -74,9 +81,18 @@ new THREE.WebGLRenderer({
 
 alpha:true,
 
-antialias:true
+antialias:false
 
 });
+
+
+
+renderer.setPixelRatio(
+Math.min(
+window.devicePixelRatio,
+1.5
+)
+);
 
 
 
@@ -99,33 +115,25 @@ renderer.domElement
 
 
 
-
-// Core Sphere
-
-
-const coreGeometry =
+const geometry =
 new THREE.SphereGeometry(
 
 2,
 
-64,
+32,
 
-64
+32
 
 );
 
 
 
-const coreMaterial =
-new THREE.MeshStandardMaterial({
+const material =
+new THREE.MeshBasicMaterial({
 
-color:0x0284c7,
+color:0x38bdf8,
 
-wireframe:true,
-
-emissive:0x003b66,
-
-metalness:0.8
+wireframe:true
 
 });
 
@@ -134,9 +142,9 @@ metalness:0.8
 const core =
 new THREE.Mesh(
 
-coreGeometry,
+geometry,
 
-coreMaterial
+material
 
 );
 
@@ -149,11 +157,6 @@ scene.add(core);
 
 
 
-
-
-// Energy Ring
-
-
 const ring =
 new THREE.Mesh(
 
@@ -161,18 +164,17 @@ new THREE.TorusGeometry(
 
 2.6,
 
-0.035,
+0.03,
 
-32,
+16,
 
-120
+60
 
 ),
 
-
 new THREE.MeshBasicMaterial({
 
-color:0x38bdf8
+color:0x0284c7
 
 })
 
@@ -184,70 +186,12 @@ scene.add(ring);
 
 
 
-
-
-
-
-
-// Lights
-
-
-const light =
-new THREE.PointLight(
-
-0x38bdf8,
-
-5,
-
-100
-
-);
-
-
-
-light.position.set(
-
-5,
-
-5,
-
-5
-
-);
-
-
-
-scene.add(light);
-
-
-
-scene.add(
-
-new THREE.AmbientLight(
-
-0xffffff,
-
-0.6
-
-)
-
-);
-
-
-
-
-
 camera.position.z=6;
 
 
 
 
 
-
-
-
-
-// Touch / Mouse Movement
 
 
 let mouseX=0;
@@ -263,13 +207,13 @@ window.addEventListener(
 
 mouseX =
 (e.clientX /
-window.innerWidth -0.5);
+innerWidth-.5);
 
 
 
 mouseY =
 (e.clientY /
-window.innerHeight -0.5);
+innerHeight-.5);
 
 
 
@@ -280,61 +224,29 @@ window.innerHeight -0.5);
 
 
 
-window.addEventListener(
-"touchmove",
-(e)=>{
+
+function render(){
 
 
-let touch =
-e.touches[0];
-
-
-mouseX =
-(touch.clientX /
-window.innerWidth -0.5);
+requestAnimationFrame(render);
 
 
 
-mouseY =
-(touch.clientY /
-window.innerHeight -0.5);
+core.rotation.y +=0.003;
 
-
-});
-
-
-
-
-
-
-
-
-
-function animateCore(){
-
-
-requestAnimationFrame(
-animateCore
-);
-
-
-
-core.rotation.y +=0.004;
-
-
-ring.rotation.z +=0.006;
+ring.rotation.z +=0.004;
 
 
 
 core.rotation.x +=
 (mouseY-core.rotation.x)
-*0.03;
+*.02;
 
 
 
 core.rotation.y +=
 (mouseX-core.rotation.y)
-*0.03;
+*.02;
 
 
 
@@ -347,21 +259,16 @@ camera
 );
 
 
+
 }
 
 
 
-animateCore();
+render();
 
 
 
 
-
-
-
-
-
-// Resize
 
 
 window.addEventListener(
@@ -370,9 +277,9 @@ window.addEventListener(
 
 
 camera.aspect =
-
 container.clientWidth /
 container.clientHeight;
+
 
 
 camera.updateProjectionMatrix();
@@ -388,10 +295,15 @@ container.clientHeight
 );
 
 
+
 });
 
 
 
+}
+
+
+
 
 
 
@@ -399,8 +311,13 @@ container.clientHeight
 
 
 // ======================================
-// TEXT SYSTEM
+// TEXT ROTATION
 // ======================================
+
+
+const text =
+document.getElementById("typing");
+
 
 
 const words=[
@@ -411,11 +328,7 @@ const words=[
 
 "Future Engineer",
 
-"Creative Programmer",
-
-"Technology Builder",
-
-"Digital Creator"
+"Technology Builder"
 
 ];
 
@@ -425,19 +338,10 @@ let index=0;
 
 
 
-const typing =
-document.getElementById("typing");
-
+if(text){
 
 
 setInterval(()=>{
-
-
-typing.style.opacity="0";
-
-
-
-setTimeout(()=>{
 
 
 index++;
@@ -449,113 +353,32 @@ index=0;
 
 
 
-typing.innerHTML =
+text.style.opacity="0";
+
+
+
+setTimeout(()=>{
+
+
+text.innerHTML =
 words[index];
 
 
-
-typing.style.opacity="1";
-
-
-
-},400);
+text.style.opacity="1";
 
 
 
-},2500);
+},300);
 
 
 
+},3000);
 
-
-
-
-
-
-// ======================================
-// GSAP INTRO
-// ======================================
-
-
-
-gsap.from(".hud-box",{
-
-y:100,
-
-opacity:0,
-
-duration:1.5,
-
-ease:"power4.out"
-
-});
-
-
-
-gsap.from(".brand",{
-
-x:-50,
-
-opacity:0,
-
-duration:1
-
-});
-
-
-
-gsap.from("nav a",{
-
-y:-30,
-
-opacity:0,
-
-stagger:.1,
-
-duration:1
-
-});
-
-
-
-
-
-
-
-
-
-// ======================================
-// LENIS SMOOTH SCROLL
-// ======================================
-
-
-const lenis =
-new Lenis({
-
-smoothWheel:true
-
-});
-
-
-
-function scrollFrame(time){
-
-lenis.raf(time);
-
-requestAnimationFrame(
-scrollFrame
-);
 
 }
 
 
 
-requestAnimationFrame(
-scrollFrame
-);
-
-
-
 
 
 
@@ -563,69 +386,60 @@ scrollFrame
 
 
 // ======================================
-// CARD 3D EFFECT
+// SIMPLE SCROLL ANIMATION
 // ======================================
 
 
-const cards =
+const sections =
 document.querySelectorAll(
-".skill,.event,.dashboard div"
+".panel,.skill,.event"
 );
 
 
 
-cards.forEach(card=>{
+const observer =
+new IntersectionObserver(
+
+(entries)=>{
 
 
-card.addEventListener(
-"mousemove",
-(e)=>{
+entries.forEach(entry=>{
 
 
-let x =
-e.offsetX /
-card.offsetWidth;
+if(entry.isIntersecting){
 
 
-let y =
-e.offsetY /
-card.offsetHeight;
+entry.target.classList.add(
+"show"
+);
 
 
-
-card.style.transform =
-`
-perspective(800px)
-
-rotateX(${y*10-5}deg)
-
-rotateY(${x*10-5}deg)
-
-scale(1.05)
-
-`;
-
+}
 
 
 });
 
 
+},
+
+{
+
+threshold:.15
+
+}
+
+);
 
 
-card.addEventListener(
-"mouseleave",
-()=>{
+
+sections.forEach(section=>{
 
 
-card.style.transform="";
-
+observer.observe(section);
 
 
 });
 
-
-
-});
 
 
 
@@ -635,6 +449,6 @@ card.style.transform="";
 
 
 console.log(
-"%c LASY X ONLINE 🚀",
-"color:#38bdf8;font-size:22px;font-weight:bold;"
+"%c LASY PERFORMANCE MODE ONLINE ⚡",
+"color:#38bdf8;font-size:18px;"
 );
