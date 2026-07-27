@@ -9,32 +9,30 @@
 
 body{
 
-    background:#030303;
-    color:#fff;
+    background:#020202;
+    color:white;
     overflow-x:hidden;
 
 }
 
 
 
-/* Matrix */
+/* Background */
 
-#matrix{
+#particles{
 
     position:fixed;
     top:0;
     left:0;
     width:100%;
     height:100%;
-    z-index:-2;
-    opacity:.25;
+    z-index:-1;
 
 }
 
 
 
 /* Loader */
-
 
 .loader{
 
@@ -46,44 +44,38 @@ body{
     justify-content:center;
     align-items:center;
     z-index:9999;
-    animation:hideLoader 2s forwards;
+    animation:loader 2s forwards;
+
 }
 
 
+.loader div{
 
-.loader-text{
-
-    font-size:60px;
     color:#00ff99;
+    font-size:70px;
     font-weight:bold;
-    letter-spacing:8px;
-    animation:pulse 1s infinite;
+    letter-spacing:10px;
+    text-shadow:
+    0 0 10px #00ff99,
+    0 0 40px #00ff99;
 
 }
 
 
 
-@keyframes hideLoader{
+@keyframes loader{
 
-    0%,80%{
+    0%{
+        opacity:1;
+    }
+
+    80%{
         opacity:1;
     }
 
     100%{
-
         opacity:0;
         visibility:hidden;
-
-    }
-
-}
-
-
-
-@keyframes pulse{
-
-    50%{
-        transform:scale(1.1);
     }
 
 }
@@ -106,8 +98,8 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:rgba(0,0,0,.7);
-    backdrop-filter:blur(10px);
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(15px);
     border-bottom:1px solid #111;
     z-index:100;
 
@@ -117,13 +109,12 @@ header{
 
 .logo{
 
-    font-size:32px;
-    font-weight:bold;
     color:#00ff99;
+    font-size:30px;
+    font-weight:bold;
     text-shadow:0 0 20px #00ff99;
 
 }
-
 
 
 
@@ -159,8 +150,8 @@ nav a:hover{
 
     min-height:100vh;
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     text-align:center;
     padding:100px 20px;
 
@@ -168,28 +159,40 @@ nav a:hover{
 
 
 
+.hero-box{
+
+    background:rgba(255,255,255,.03);
+    padding:50px;
+    border-radius:30px;
+    border:1px solid rgba(0,255,153,.2);
+    backdrop-filter:blur(10px);
+
+}
+
+
+
 .hero h1{
 
-    font-size:70px;
+    font-size:90px;
 
 }
 
 
 
-.hero span{
+.hero h1 span{
 
     color:#00ff99;
-    text-shadow:0 0 30px #00ff99;
+    text-shadow:
+    0 0 20px #00ff99;
 
 }
-
 
 
 
 .hero h2{
 
-    margin:20px 0;
-    color:#aaa;
+    font-size:35px;
+    margin:20px;
 
 }
 
@@ -197,14 +200,20 @@ nav a:hover{
 
 .hero p{
 
-    max-width:600px;
-    margin:auto;
-    color:#bbb;
-    font-size:18px;
+    color:#aaa;
+    font-size:20px;
 
 }
 
 
+
+
+
+
+
+
+
+/* Buttons */
 
 
 .buttons{
@@ -215,15 +224,14 @@ nav a:hover{
 
 
 
-
 .btn{
 
     display:inline-block;
-    padding:15px 35px;
+    padding:15px 40px;
     margin:10px;
+    border-radius:40px;
     background:#00ff99;
     color:#000;
-    border-radius:40px;
     text-decoration:none;
     font-weight:bold;
     transition:.3s;
@@ -235,10 +243,9 @@ nav a:hover{
 .btn:hover{
 
     transform:translateY(-5px);
-    box-shadow:0 0 25px #00ff99;
+    box-shadow:0 0 30px #00ff99;
 
 }
-
 
 
 
@@ -263,14 +270,14 @@ nav a:hover{
 
 .section{
 
-    padding:80px 8%;
+    padding:90px 8%;
     text-align:center;
 
 }
 
 
 
-.title{
+.section h2{
 
     color:#00ff99;
     font-size:35px;
@@ -280,11 +287,9 @@ nav a:hover{
 
 
 
-.text{
+.section p{
 
-    color:#ccc;
-    max-width:800px;
-    margin:auto;
+    color:#bbb;
     line-height:2;
 
 }
@@ -305,7 +310,7 @@ nav a:hover{
     display:flex;
     justify-content:center;
     flex-wrap:wrap;
-    gap:30px;
+    gap:25px;
     margin-top:50px;
 
 }
@@ -314,10 +319,10 @@ nav a:hover{
 
 .stats div{
 
-    background:#111;
-    padding:30px;
     width:200px;
-    border-radius:20px;
+    padding:30px;
+    background:#0b0b0b;
+    border-radius:25px;
     border:1px solid #222;
 
 }
@@ -327,7 +332,7 @@ nav a:hover{
 .stats h3{
 
     color:#00ff99;
-    font-size:35px;
+    font-size:40px;
 
 }
 
@@ -355,11 +360,11 @@ nav a:hover{
 
 .card{
 
-    width:230px;
+    width:240px;
     padding:35px 20px;
-    background:#0c0c0c;
-    border-radius:20px;
+    background:rgba(255,255,255,.04);
     border:1px solid #222;
+    border-radius:25px;
     transition:.4s;
 
 }
@@ -368,18 +373,17 @@ nav a:hover{
 
 .card:hover{
 
-    transform:translateY(-10px);
+    transform:translateY(-12px);
     border-color:#00ff99;
-    box-shadow:0 0 25px #003f28;
+    box-shadow:0 0 25px rgba(0,255,153,.3);
 
 }
 
 
 
-.icon{
+.card:first-letter{
 
-    font-size:45px;
-    margin-bottom:20px;
+    font-size:40px;
 
 }
 
@@ -388,6 +392,7 @@ nav a:hover{
 .card h3{
 
     color:#00ff99;
+    margin:15px;
 
 }
 
@@ -399,105 +404,111 @@ nav a:hover{
 
 
 
-/* Services */
+/* Skills */
 
 
-.services{
+.skill{
+
+    max-width:700px;
+    margin:30px auto;
+    text-align:right;
+
+}
+
+
+
+.bar{
+
+    width:100%;
+    height:15px;
+    background:#111;
+    border-radius:20px;
+    overflow:hidden;
+
+}
+
+
+
+.bar span{
+
+    display:block;
+    height:100%;
+    background:#00ff99;
+    border-radius:20px;
+    box-shadow:0 0 15px #00ff99;
+
+}
+
+
+
+
+
+
+
+
+
+/* Terminal */
+
+
+.terminal{
+
+    max-width:650px;
+    margin:auto;
+    background:#050505;
+    padding:30px;
+    text-align:left;
+    border-radius:20px;
+    border:1px solid #00ff99;
+    box-shadow:0 0 30px rgba(0,255,153,.2);
+
+}
+
+
+
+.terminal p{
+
+    color:#00ff99;
+    margin:15px;
+
+}
+
+
+
+
+
+
+
+
+
+/* Features */
+
+
+.features{
 
     display:flex;
-    flex-wrap:wrap;
     justify-content:center;
+    flex-wrap:wrap;
     gap:25px;
 
 }
 
 
 
-.services div{
+.features div{
 
     width:250px;
-    background:#111;
-    padding:30px;
-    border-radius:20px;
+    padding:35px;
+    background:#0b0b0b;
+    border-radius:25px;
 
 }
 
 
 
-.services h3{
-
-    margin:15px 0;
-    color:#00ff99;
-
-}
-
-
-
-
-
-
-
-
-
-/* Projects */
-
-
-.projects{
-
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:25px;
-
-}
-
-
-
-.project{
-
-    width:300px;
-    padding:30px;
-    background:#111;
-    border-radius:20px;
-    border:1px solid #222;
-
-}
-
-
-
-.project h3{
+.features h3{
 
     color:#00ff99;
-
-}
-
-
-
-
-
-
-
-
-
-/* Timeline */
-
-
-.timeline div{
-
-    margin:20px auto;
-    padding:20px;
-    background:#111;
-    max-width:400px;
-    border-radius:15px;
-
-}
-
-
-
-.timeline span{
-
-    color:#00ff99;
-    margin-left:15px;
+    margin:15px;
 
 }
 
@@ -511,13 +522,12 @@ nav a:hover{
 
 .telegram{
 
-    display:inline-block;
-    margin-top:20px;
     color:#00ff99;
-    font-size:25px;
+    font-size:28px;
     text-decoration:none;
 
 }
+
 
 
 
@@ -560,9 +570,7 @@ header{
 
 nav{
 
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
+    text-align:center;
 
 }
 
@@ -570,7 +578,7 @@ nav{
 
 .hero h1{
 
-    font-size:40px;
+    font-size:50px;
 
 }
 
@@ -578,20 +586,26 @@ nav{
 
 .hero h2{
 
-    font-size:18px;
+    font-size:25px;
+
+}
+
+
+
+.hero-box{
+
+    padding:30px;
 
 }
 
 
 
 .card,
-.project,
-.services div{
+.features div{
 
     width:90%;
 
 }
 
 
-
-  }
+}
